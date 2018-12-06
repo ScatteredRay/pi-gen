@@ -23,6 +23,6 @@ docker build -t pi-gen .
 
 docker run --name "$ContainerName" --privileged --env-file $ConfigFile pi-gen bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static && cd /pi-gen; ./build.sh; rsync -av work/*/build.log deploy/"
 
-#docker cp "$ContainerName":/pi-gen/deploy .
+docker cp "$ContainerName":/pi-gen/deploy .
 
-#docker rm -v $ContainerName
+docker rm -v $ContainerName
