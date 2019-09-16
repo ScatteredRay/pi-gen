@@ -1,8 +1,9 @@
 Param(
-    $ContainerName = "pigen_work"
+    $ContainerName = "pigen_work",
+    $Continue = $False
 )
 
-$IMG_NAME = "nd_screen"
+$IMG_NAME = "nd_docker"
 
 $ConfigFile = (Get-ChildItem config).FullName
 
@@ -14,15 +15,24 @@ if($ContainerRunning) {
     Exit
 }
 
-if($ContainerExists) {
+Write-Host "Container Exists $ContainerExists Running $ContainerRunning"
+
+if($ContainerExists -and !$Continue) {
     Write-Host "The Container already exists."
-    docker rm -v $ContainerName
+    #docker rm -v $ContainerName
 }
 
 docker build -t pi-gen .
 
-docker run --name "$ContainerName" --privileged --env-file $ConfigFile pi-gen bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static && cd /pi-gen; ./build.sh; rsync -av work/*/build.log deploy/"
+if($ContainerExists) {
+        docker run --rm --name "${ContainerName}_cont"  --volumes-from="${ContainerName}" --privileged --env-file $ConfigFile pi-gen bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static && cd /pi-gen; ./build.sh; rsync -av work/*/build.log deploy/"
+}
+else {
+    docker run --name "$ContainerName" --privileged --env-file $ConfigFile pi-gen bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static && cd /pi-gen; ./build.sh; rsync -av work/*/build.log deploy/"
+}
 
-docker cp "$ContainerName":/pi-gen/deploy .
+docker cp "${ContainerName}:/pi-gen/deploy" .
 
-docker rm -v $ContainerName
+if(-not $Continue) {
+    docker rm -v $ContainerName
+}
