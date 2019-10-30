@@ -1,9 +1,8 @@
+
 Param(
     $ContainerName = "pigen_work",
     $Continue = $False
 )
-
-$IMG_NAME = "nd_docker"
 
 $ConfigFile = (Get-ChildItem config).FullName
 

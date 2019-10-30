@@ -162,7 +162,8 @@ export DEPLOY_ZIP="${DEPLOY_ZIP:-1}"
 export LOG_FILE="${WORK_DIR}/build.log"
 
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
-export FIRST_USER_PASS=${FIRST_USER_PASS:-raspberry}
+export FIRST_USER_PASS=${FIRST_USER_PASS:-$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c8)}
+export ROOT_PASS=${ROOT_PASS:-$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c8)}
 export WPA_ESSID
 export WPA_PASSWORD
 export WPA_COUNTRY
