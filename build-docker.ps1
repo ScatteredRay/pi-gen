@@ -1,7 +1,7 @@
 
 Param(
-    $ContainerName = "pigen_work",
-    $Continue = $False
+    [string] $ContainerName = "pigen_work",
+    [switch] $Continue
 )
 
 $ConfigFile = (Get-ChildItem config).FullName
@@ -33,5 +33,6 @@ else {
 docker cp "${ContainerName}:/pi-gen/deploy" .
 
 if(-not $Continue) {
+    Write-Host "Removing container $ContainerName"
     docker rm -v $ContainerName
 }
