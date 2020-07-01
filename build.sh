@@ -168,6 +168,8 @@ export WPA_ESSID
 export WPA_PASSWORD
 export WPA_COUNTRY
 export ENABLE_SSH="${ENABLE_SSH:-0}"
+export NOMAD_SERVER="${NOMAD_SERVER:-0}"
+export CONSUL_ENCRYPTION_KEY="${CONSUL_ENCRYPTION_KEY:$(dd if=/dev/urandom bs=16 count=1 | base64)}"
 
 export LOCALE_DEFAULT="${LOCALE_DEFAULT:-en_GB.UTF-8}"
 

@@ -1,0 +1,1 @@
+Removal of this file will put this node in client mode for nomad and consul.
