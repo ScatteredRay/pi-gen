@@ -5,9 +5,13 @@ install -m 644 files/noclear.conf "${ROOTFS_DIR}/etc/systemd/system/getty@tty1.s
 install -v -m 644 files/fstab "${ROOTFS_DIR}/etc/fstab"
 
 # Write passwords to a file.
-cat <<EOF > /pi-gen/deploy/users
+cat <<EOF > /pi-gen/deploy/users_${IMG_DATE}-${IMG_NAME}
 ${FIRST_USER_NAME} ${FIRST_USER_PASS}
 root ${ROOT_PASS}
+EOF
+
+cat <<EOF > /pi-gen/deploy/key_${IMG_DATE}-${IMG_NAME}
+${CONSUL_ENCRYPTION_KEY}
 EOF
 
 on_chroot << EOF
