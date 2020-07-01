@@ -1,0 +1,17 @@
+[Unit]
+Description=Generate Unique Hostname
+DefaultDependencies=no
+Wants=local-fs.target swap.target network-pre.target
+After=local-fs.target swap.target
+Before=network-pre.target
+ConditionPathExists=!/etc/hostname
+ConditionPathExists=!/boot/hostname
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh -c 'echo "rpi-$$(head /dev/urandom | tr -dc 0-9A-Z | head -c 6)" > /etc/hostname && /bin/hostname -F /etc/hostname'
+TimeoutSec=30s
+
+[Install]
+WantedBy=network.target

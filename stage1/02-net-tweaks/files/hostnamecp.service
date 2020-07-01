@@ -1,0 +1,19 @@
+[Unit]
+Description=Copy Unique Hostname
+DefaultDependencies=no
+Wants=local-fs.target swap.target network-pre.target
+After=local-fs.target swap.target
+Before=network-pre.target
+ConditionPathExists=/boot/hostname
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/mv /boot/hostname /etc/hostname
+ExecStartPost=/bin/chmod 644 /etc/hostname
+ExecStartPost=/bin/hostname -F /etc/hostname
+TimeoutSec=30s
+
+[Install]
+WantedBy=network.target
+
