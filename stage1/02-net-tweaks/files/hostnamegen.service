@@ -4,13 +4,13 @@ DefaultDependencies=no
 Wants=local-fs.target swap.target network-pre.target
 After=local-fs.target swap.target
 Before=network-pre.target
-ConditionPathExists=!/etc/hostname
+ConditionPathExists=!/etc/hostname.gen
 ConditionPathExists=!/boot/hostname
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/sh -c 'echo "rpi-$$(head /dev/urandom | tr -dc 0-9A-Z | head -c 6)" > /etc/hostname && /bin/hostname -F /etc/hostname'
+ExecStart=/bin/sh -c 'echo "rpi-$$(head /dev/urandom | tr -dc 0-9A-Z | head -c 6)" > /etc/hostname && /bin/hostname -F /etc/hostname && cp /etc/hostname /etc/hostname.gen'
 TimeoutSec=30s
 
 [Install]
