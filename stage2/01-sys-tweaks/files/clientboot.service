@@ -1,0 +1,19 @@
+[Unit]
+Description=Set to client on boot
+DefaultDependencies=no
+Wants=local-fs.target swap.target network-pre.target
+After=local-fs.target swap.target
+Before=network-pre.target
+ConditionPathExists=!/boot/server.txt
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/rm /etc/nomad.d/server.hcl
+ExecStart=/bin/rm /etc/consul.d/server.hcl
+ExecStart=/bin/rm /etc/avahi/services/picluster.service
+ExecStart=/bin/touch /boot/client.txt
+TimeoutSec=30s
+
+[Install]
+WantedBy=network.target

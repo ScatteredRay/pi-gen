@@ -116,8 +116,12 @@ if [ "${NOMAD_SERVER}" == "1" ]; then
 fi
 
 if [ "${NOMAD_SERVER}" == "1" ]; then
-    install -m 755 files/clientboot "${ROOTFS_DIR}/etc/init.d/clientboot"
+    install -m 644 files/clientboot.service "${ROOTFS_DIR}/etc/systemd/system/clientboot.service"
     install -m 644 files/server.txt "${ROOTFS_DIR}/boot/server.txt"
+
+on_chroot << EOF
+systemctl enable clientboot
+EOF
 fi
 
 rm -f "${ROOTFS_DIR}/etc/ssh/"ssh_host_*_key*
