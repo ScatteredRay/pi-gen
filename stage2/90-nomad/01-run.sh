@@ -7,11 +7,11 @@ EOF
 # For some reason curl isn't using the correct path
 export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 
-## In theory this is provided by the docker package, so shouldn't need this.
-#on_chroot << EOF
-#curl -sSL https://get.docker.com/ | sh
-#usermod -aG docker $FIRST_USER_NAME
-#EOF
+## Docker package doesn't seem to work.
+on_chroot << EOF
+curl -sSL https://get.docker.com/ | sh
+usermod -aG docker $FIRST_USER_NAME
+EOF
 
 curl -sSL https://releases.hashicorp.com/consul/1.7.2/consul_1.7.2_linux_armhfv6.zip -o "${STAGE_WORK_DIR}/consul.zip"
 unzip "${STAGE_WORK_DIR}/consul.zip" -d "${ROOTFS_DIR}/usr/sbin/"
