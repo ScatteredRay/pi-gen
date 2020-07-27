@@ -6,7 +6,7 @@ After=network-online.target
 
 [Service]
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart=/bin/sh -c '/usr/sbin/consul agent -config-dir=/etc/consul.d/ -bind \'{{ GetAllInterfaces | include "name" "^eth" | include "flags" "forwardable|up" | attr "address" }}\' $$(avahi-browse -d local _picluster._tcp --resolve -t --ignore-local --parsable | awk -F";" \'$$1 == "=" && $$3 == "IPv4" {print "-retry-join"; print $$8; exit}\')'
+ExecStart=/bin/sh -c '/usr/sbin/consul agent -config-dir=/etc/consul.d/ -bind=0.0.0.0 -client=0.0.0.0 $$(avahi-browse -d local _picluster._tcp --resolve -t --ignore-local --parsable | awk -F";" \'$$1 == "=" && $$3 == "IPv4" {print "-retry-join"; print $$8; exit}\')'
 KillMode=process
 KillSignal=SIGINT
 LimitNOFILE=infinity
