@@ -1,0 +1,2 @@
+avahi-daemon avahi-discover avahi-utils libnss-mdns
+docker

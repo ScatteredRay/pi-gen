@@ -10,10 +10,6 @@ ${FIRST_USER_NAME} ${FIRST_USER_PASS}
 root ${ROOT_PASS}
 EOF
 
-cat <<EOF > /pi-gen/deploy/key_${IMG_DATE}-${IMG_NAME}
-${CONSUL_ENCRYPTION_KEY}
-EOF
-
 on_chroot << EOF
 if ! id -u ${FIRST_USER_NAME} >/dev/null 2>&1; then
 	adduser --disabled-password --gecos "" ${FIRST_USER_NAME}
