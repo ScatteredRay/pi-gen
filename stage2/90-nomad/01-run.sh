@@ -48,14 +48,14 @@ install -m 644 files/nomad.service "${ROOTFS_DIR}/etc/systemd/system/nomad.servi
 install -d "${ROOTFS_DIR}/etc/nomad.d"
 install -m 644 files/nomad.hcl "${ROOTFS_DIR}/etc/nomad.d/nomad.hcl"
 if [ "${NOMAD_SERVER}" == "1" ]; then
-    install -m 644 files/server.hcl "${ROOTFS_DIR}/etc/nomad.d/server.hcl"
+    install -m 644 files/nomadserver.hcl "${ROOTFS_DIR}/etc/nomad.d/server.hcl"
     cat <<EOF > "${ROOTFS_DIR}/etc/nomad.d/encrypt.hcl"
 server {
     encrypt = "${CONSUL_ENCRYPTION_KEY}"
 }
 EOF
 fi
-install -m 644 files/client.hcl "${ROOTFS_DIR}/etc/nomad.d/client.hcl"
+install -m 644 files/nomadclient.hcl "${ROOTFS_DIR}/etc/nomad.d/client.hcl"
 
 on_chroot << EOF
 chown root:root /usr/sbin/nomad
