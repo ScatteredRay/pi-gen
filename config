@@ -1,4 +1,5 @@
-IMG_NAME=nd_swarm
+IMG_NAME=nd_cluster
 FIRST_USER_NAME=nd
 ENABLE_SSH=1
 NOMAD_SERVER=1
+SSH_KEYS_SERVER=keys.host.url
